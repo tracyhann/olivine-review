@@ -35,6 +35,8 @@
     assetFrame: document.getElementById("assetFrame"),
     reviewImage: document.getElementById("reviewImage"),
     reviewPdf: document.getElementById("reviewPdf"),
+    pdfFallback: document.getElementById("pdfFallback"),
+    pdfOpenLink: document.getElementById("pdfOpenLink"),
     notesLabel: document.getElementById("notesLabel"),
     notesBox: document.getElementById("notesBox"),
     keepButton: document.getElementById("keepButton"),
@@ -222,9 +224,13 @@
     if (isPdf) {
       elements.reviewImage.hidden = true;
       elements.reviewImage.removeAttribute("src");
+      elements.pdfFallback.hidden = false;
+      elements.pdfOpenLink.href = item.image;
       elements.reviewPdf.hidden = false;
       elements.reviewPdf.src = `${item.image}#toolbar=1&navpanes=0`;
     } else {
+      elements.pdfFallback.hidden = true;
+      elements.pdfOpenLink.removeAttribute("href");
       elements.reviewPdf.hidden = true;
       elements.reviewPdf.removeAttribute("src");
       elements.reviewImage.hidden = false;
