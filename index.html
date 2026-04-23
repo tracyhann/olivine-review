@@ -32,6 +32,15 @@
           </div>
           <p id="assetPath" class="path-text"></p>
         </div>
+        <div class="nav-panel">
+          <button id="prevButton" class="utility" type="button">Prev</button>
+          <button id="nextButton" class="utility" type="button">Next</button>
+          <form id="jumpForm" class="jump-form">
+            <label for="jumpInput">Jump to</label>
+            <input id="jumpInput" type="number" min="1" step="1" inputmode="numeric" />
+            <button class="utility" type="submit">Go</button>
+          </form>
+        </div>
         <div id="assetFrame" class="asset-frame">
           <img id="reviewImage" alt="Current table crop" hidden />
           <iframe id="reviewPdf" title="Current publication PDF" hidden></iframe>

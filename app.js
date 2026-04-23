@@ -39,6 +39,10 @@
     notesBox: document.getElementById("notesBox"),
     keepButton: document.getElementById("keepButton"),
     excludeButton: document.getElementById("excludeButton"),
+    prevButton: document.getElementById("prevButton"),
+    nextButton: document.getElementById("nextButton"),
+    jumpForm: document.getElementById("jumpForm"),
+    jumpInput: document.getElementById("jumpInput"),
     exportButton: document.getElementById("exportButton"),
     importCsv: document.getElementById("importCsv"),
   };
@@ -67,6 +71,11 @@
     const remaining = state.remaining.length;
     elements.summary.textContent = `${state.reviewedCount} reviewed, ${remaining} remaining of ${state.totalCount}`;
     elements.position.textContent = remaining ? `${state.currentIndex + 1} / ${remaining}` : "0 / 0";
+    elements.prevButton.disabled = remaining < 2 || state.currentIndex === 0;
+    elements.nextButton.disabled = remaining < 2 || state.currentIndex === remaining - 1;
+    elements.jumpInput.disabled = remaining === 0;
+    elements.jumpInput.max = String(Math.max(remaining, 1));
+    elements.jumpInput.value = remaining ? String(state.currentIndex + 1) : "";
   }
 
   function csvEscape(value) {
@@ -224,6 +233,31 @@
     }
   }
 
+  function goToIndex(nextIndex) {
+    refreshRemaining();
+    if (!state.remaining.length) {
+      render();
+      return;
+    }
+    state.currentIndex = Math.min(Math.max(nextIndex, 0), state.remaining.length - 1);
+    setStatus("");
+    render();
+  }
+
+  function jumpToNumber(rawValue) {
+    refreshRemaining();
+    const targetNumber = Number.parseInt(String(rawValue || ""), 10);
+    if (!Number.isInteger(targetNumber)) {
+      setStatus("Enter a review item number.", "error");
+      return;
+    }
+    if (targetNumber < 1 || targetNumber > state.remaining.length) {
+      setStatus(`Jump number must be between 1 and ${state.remaining.length}.`, "error");
+      return;
+    }
+    goToIndex(targetNumber - 1);
+  }
+
   async function loadItems() {
     setStatus("");
     const response = await fetch(CSV_PATH);
@@ -277,6 +311,12 @@
 
   elements.keepButton.addEventListener("click", () => saveDecision("keep"));
   elements.excludeButton.addEventListener("click", () => saveDecision("exclude"));
+  elements.prevButton.addEventListener("click", () => goToIndex(state.currentIndex - 1));
+  elements.nextButton.addEventListener("click", () => goToIndex(state.currentIndex + 1));
+  elements.jumpForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    jumpToNumber(elements.jumpInput.value);
+  });
   elements.exportButton.addEventListener("click", exportCsv);
   elements.importCsv.addEventListener("change", () => {
     const file = elements.importCsv.files && elements.importCsv.files[0];
@@ -294,6 +334,12 @@
     }
     if (event.key.toLowerCase() === "e" || event.key === "Backspace") {
       saveDecision("exclude");
+    }
+    if (event.key === "ArrowLeft") {
+      goToIndex(state.currentIndex - 1);
+    }
+    if (event.key === "ArrowRight") {
+      goToIndex(state.currentIndex + 1);
     }
   });
 

@@ -33,6 +33,12 @@ button {
   cursor: pointer;
 }
 
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .app-shell {
   width: min(1440px, calc(100vw - 32px));
   min-height: 100vh;
@@ -141,6 +147,45 @@ h1 {
   font-size: 16px;
   font-weight: 760;
   overflow-wrap: anywhere;
+}
+
+.nav-panel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 10px 12px;
+}
+
+.jump-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.jump-form label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.jump-form input {
+  width: 92px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  padding: 8px 10px;
+  font: inherit;
+  font-weight: 700;
+}
+
+.jump-form input:focus {
+  outline: 2px solid rgba(31, 111, 104, 0.24);
+  border-color: var(--accent);
 }
 
 .path-text {
@@ -258,6 +303,17 @@ h1 {
   .controls {
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .nav-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .jump-form {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
   button {
