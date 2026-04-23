@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Olivine Table Review</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>Olivine Table Review</h1>
+          <p id="summary" class="muted">Loading review log...</p>
+        </div>
+        <div class="topbar-actions">
+          <label class="import-button" for="importCsv">Import CSV</label>
+          <input id="importCsv" type="file" accept=".csv,text/csv" hidden />
+          <button id="exportButton" type="button" class="utility">Export CSV</button>
+          <div id="position" class="position-pill">0 / 0</div>
+        </div>
+      </header>
+
+      <section id="status" class="status-banner" hidden></section>
+
+      <section id="reviewPanel" class="review-panel" hidden>
+        <div class="asset-meta">
+          <div>
+            <p id="assetType" class="asset-type"></p>
+            <p id="assetTitle" class="asset-title"></p>
+            <p id="assetHint" class="muted"></p>
+          </div>
+          <p id="assetPath" class="path-text"></p>
+        </div>
+        <div id="assetFrame" class="asset-frame">
+          <img id="reviewImage" alt="Current table crop" hidden />
+          <iframe id="reviewPdf" title="Current publication PDF" hidden></iframe>
+        </div>
+        <label id="notesLabel" class="notes-label" for="notesBox" hidden>Notes</label>
+        <textarea id="notesBox" class="notes-box" rows="4" hidden></textarea>
+        <div class="controls">
+          <button id="excludeButton" class="secondary" type="button">Exclude</button>
+          <button id="keepButton" class="primary" type="button">Keep</button>
+        </div>
+      </section>
+
+      <section id="emptyState" class="empty-state" hidden>
+        All review items have been reviewed.
+      </section>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
